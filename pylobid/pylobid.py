@@ -101,6 +101,10 @@ class PyLobidClient:
         """Return the preferred name."""
         return self.get_pref_name()
 
+    @property
+    def geographic_area_codes(self) -> list:
+        return self.ent_dict.get("geographicAreaCode", [])
+
     def extract_id(self, url: str) -> str:
         """Extract the GND-ID from an GND-URL.
 
@@ -314,6 +318,34 @@ class PyLobidWork(PyLobidClient):
             str: the publication date of the work
         """
         return self.ent_dict.get("dateOfPublication", [""])[0]
+    
+    @property
+    def broader_terms(self) -> list:
+
+        broader_terms = []
+        for key, value in self.ent_dict.items():
+            if key.startswith("broaderTerm"):
+                broader_terms.append(value)
+                
+        return broader_terms[0]
+
+
+class PyLobidSubjectHeading(PyLobidClient):
+
+    @property
+    def parent_headings(self) -> list:
+        
+        parent_headings = []
+        for key, value in self.ent_dict.items():
+            if key.startswith("broaderTerm"):
+                parent_headings.append(value)
+                
+        return parent_headings[0]
+    
+    @property
+    def gnd_subject_categories(self) -> list:
+
+        return self.ent_dict.get("gndSubjectCategory", [])
 
 
 class PyLobidPerson(PyLobidClient):
