@@ -327,7 +327,30 @@ class PyLobidWork(PyLobidClient):
             if key.startswith("broaderTerm"):
                 broader_terms.append(value)
                 
-        return broader_terms[0]
+        return broader_terms[0] if not broader_terms == [] else []
+    
+    @property
+    def form_of_work(self) -> list:
+
+        return self.ent_dict.get("formOfWorkAndExpression", [])
+    
+    @property
+    def opus_or_other(self) -> str:
+        work_descriptors = [
+        "thematicIndexNumericDesignationOfMusicalWork",
+        "opusNumericDesignationOfMusicalWork"
+        ]
+    
+        for key in work_descriptors:
+            values = self.ent_dict.get(key)
+            if values:
+                return ", ".join(values)
+    
+        return ""
+
+
+
+
 
 
 class PyLobidSubjectHeading(PyLobidClient):
@@ -340,7 +363,7 @@ class PyLobidSubjectHeading(PyLobidClient):
             if key.startswith("broaderTerm"):
                 parent_headings.append(value)
                 
-        return parent_headings[0]
+        return parent_headings[0] or []
     
     @property
     def gnd_subject_categories(self) -> list:
