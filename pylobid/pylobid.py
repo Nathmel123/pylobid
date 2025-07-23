@@ -335,23 +335,23 @@ class PyLobidWork(PyLobidClient):
         return self.ent_dict.get("formOfWorkAndExpression", [])
     
     @property
-    def opus_or_other(self) -> str:
-        work_descriptors = [
-        "thematicIndexNumericDesignationOfMusicalWork",
-        "opusNumericDesignationOfMusicalWork"
-        ]
-    
-        for key in work_descriptors:
-            values = self.ent_dict.get(key)
-            if values:
-                return ", ".join(values)
-    
+    def opus(self) -> str:
+        
+        key = "opusNumericDesignationOfMusicalWork"
+        values = self.ent_dict.get(key)
+        if values:
+            return ", ".join(values)
         return ""
-
-
-
-
-
+    
+        
+    
+    @property
+    def work_catalouge_number(self):
+        key = "thematicIndexNumericDesignationOfMusicalWork"
+        values = self.ent_dict.get(key)
+        if values:
+            return ", ".join(values)
+        return ""
 
 class PyLobidSubjectHeading(PyLobidClient):
 
