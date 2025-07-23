@@ -324,7 +324,7 @@ class PyLobidWork(PyLobidClient):
 
         broader_terms = []
         for key, value in self.ent_dict.items():
-            if key.startswith("broaderTerm"):
+            if key.startswith("broaderTerm") and not key == "broaderTermInstantial":
                 broader_terms.append(value)
                 
         return broader_terms[0] if not broader_terms == [] else []
