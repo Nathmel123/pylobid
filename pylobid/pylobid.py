@@ -193,7 +193,7 @@ class PyLobidClient:
     def __init__(self, gnd_id: str = None, fetch_related: bool = False) -> None:
         """Class constructor."""
         self.BASE_URL = "http://lobid.org/gnd"
-        self.ID_PATTERN = r"([0-9]\w*-*[0-9]\w*)"
+        self.ID_PATTERN = r"(\d{1,10}(?:-[0-9Xx])?)"
         self.coords_xpath = parse("$..hasGeometry")
         self.coords_regex = r"[+|-]\d+(?:\.\d*)?"
         self.pref_alt_names_xpath = parse("$.variantName")
@@ -262,6 +262,11 @@ class PyLobidOrg(PyLobidClient):
         """Return a list of locations."""
         return self.ent_dict.get("placeOfBusiness", [])
 
+    @property
+    def category(self) -> list:
+        """Return the category"""
+        return self.ent_dict.get("broaderTermInstantial", [])
+    
     def __repr__(self) -> str:
         return f"<PyLobidOrg {self.gnd_url}>"
 
