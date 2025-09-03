@@ -193,7 +193,7 @@ class PyLobidClient:
     def __init__(self, gnd_id: str = None, fetch_related: bool = False) -> None:
         """Class constructor."""
         self.BASE_URL = "http://lobid.org/gnd"
-        self.ID_PATTERN = r"(\d{1,10}(?:-[0-9Xx])?)"
+        self.ID_PATTERN = r"([0-9]\w*-*\w*)"
         self.coords_xpath = parse("$..hasGeometry")
         self.coords_regex = r"[+|-]\d+(?:\.\d*)?"
         self.pref_alt_names_xpath = parse("$.variantName")
